@@ -3,9 +3,9 @@
 
 :root {
   --sidebar-w: 240px;
-  /* 핀터레스트 감성의 따뜻한 오프화이트 배경 */
-  --bg: #F7F5F0; 
-  --surface: #FFFFFF;
+  /* 더스티 블루 테마 */
+  --bg: #EEF1F4; 
+  --surface: #FAFBFC;
   --border: rgba(0,0,0,0.06);
   --border-md: rgba(0,0,0,0.12);
   --text-primary: #1A1918;
