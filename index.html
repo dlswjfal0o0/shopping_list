@@ -7,517 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --sidebar-w: 220px;
-    --bg: #F7F6F2;
-    --surface: #FFFFFF;
-    --border: rgba(0,0,0,0.08);
-    --border-md: rgba(0,0,0,0.14);
-    --text-primary: #1A1A18;
-    --text-secondary: #6B6B67;
-    --text-hint: #ABABAB;
-    --accent-must: #1D9E75;
-    --accent-must-bg: #E1F5EE;
-    --accent-must-mid: #9FE1CB;
-    --accent-want: #D85A30;
-    --accent-want-bg: #FAECE7;
-    --accent-want-mid: #F5C4B3;
-    --nav-active-bg: #F0F0EC;
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-  }
-
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    min-height: 100vh;
-    display: flex;
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: var(--sidebar-w);
-    min-height: 100vh;
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 10;
-  }
-
-  .sidebar-brand {
-    padding: 1.5rem 1.25rem 1rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .brand-icon {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    color: var(--text-primary);
-    letter-spacing: -0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .brand-icon svg { flex-shrink: 0; }
-  .brand-sub {
-    font-size: 11px;
-    color: var(--text-hint);
-    margin-top: 3px;
-    letter-spacing: 0.02em;
-  }
-
-  .sidebar-nav {
-    padding: 1rem 0.75rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 400;
-    transition: background 0.12s, color 0.12s;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-  }
-  .nav-item:hover { background: var(--nav-active-bg); color: var(--text-primary); }
-  .nav-item.active { background: var(--nav-active-bg); color: var(--text-primary); font-weight: 500; }
-
-  .nav-icon {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .nav-label { flex: 1; line-height: 1.3; }
-  .nav-label-main { display: block; }
-  .nav-label-sub {
-    display: block;
-    font-size: 11px;
-    color: var(--text-hint);
-    font-weight: 400;
-    margin-top: 2px;
-  }
-  .nav-item.active .nav-label-sub { color: var(--text-secondary); }
-
-  .nav-badge {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 2px 7px;
-    border-radius: 20px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .badge-must { background: var(--accent-must-bg); color: #0F6E56; }
-  .badge-want { background: var(--accent-want-bg); color: #993C1D; }
-
-  .nav-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 6px 0;
-  }
-
-  /* ── MAIN ── */
-  .main {
-    margin-left: var(--sidebar-w);
-    flex: 1;
-    padding: 2rem 2.5rem;
-    max-width: calc(100vw - var(--sidebar-w));
-  }
-
-  .page { display: none; }
-  .page.active { display: block; }
-
-  /* ── HOME PAGE ── */
-  .home-greeting {
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    font-weight: 400;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-    letter-spacing: -0.5px;
-  }
-  .home-date {
-    font-size: 13px;
-    color: var(--text-hint);
-    margin-bottom: 2rem;
-  }
-
-  .home-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .home-card {
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: border-color 0.15s, transform 0.12s;
-    position: relative;
-    overflow: hidden;
-  }
-  .home-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 4px; height: 100%;
-  }
-  .home-card.must::before { background: var(--accent-must); }
-  .home-card.want::before { background: var(--accent-want); }
-  .home-card:hover { border-color: var(--border-md); transform: translateY(-2px); }
-
-  .home-card-tag {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .home-card-tag.must { color: var(--accent-must); }
-  .home-card-tag.want { color: var(--accent-want); }
-
-  .home-card-amount {
-    font-family: 'DM Serif Display', serif;
-    font-size: 30px;
-    color: var(--text-primary);
-    letter-spacing: -1px;
-    margin-bottom: 4px;
-  }
-  .home-card-meta {
-    font-size: 12px;
-    color: var(--text-hint);
-  }
-
-  .home-total-card {
-    background: var(--text-primary);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-  }
-  .home-total-label {
-    font-size: 13px;
-    color: rgba(255,255,255,0.55);
-    margin-bottom: 4px;
-  }
-  .home-total-amount {
-    font-family: 'DM Serif Display', serif;
-    font-size: 36px;
-    color: #fff;
-    letter-spacing: -1px;
-  }
-  .home-total-right {
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    text-align: right;
-  }
-
-  .home-section-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-
-  .home-store-list {
-    background: var(--surface);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
-  .home-store-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 1.25rem;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-  }
-  .home-store-row:last-child { border-bottom: none; }
-  .home-store-name {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 500;
-  }
-  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .home-store-cat { font-size: 11px; color: var(--text-hint); margin-left: 4px; font-weight: 400; }
-  .home-store-amt { font-weight: 500; color: var(--text-secondary); }
-  .home-empty { padding: 2rem; text-align: center; color: var(--text-hint); font-size: 13px; }
-
-  /* ── SHOP PAGE ── */
-  .page-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    gap: 1rem;
-  }
-  .page-title-area {}
-  .page-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 26px;
-    font-weight: 400;
-    letter-spacing: -0.5px;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 4px;
-  }
-  .page-title-dot {
-    width: 10px; height: 10px; border-radius: 50%;
-  }
-  .page-subtitle { font-size: 13px; color: var(--text-hint); }
-
-  .page-summary {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .page-total-badge {
-    font-size: 13px;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 20px;
-  }
-  .badge-must-lg { background: var(--accent-must-bg); color: #085041; }
-  .badge-want-lg { background: var(--accent-want-bg); color: #712B13; }
-
-  .add-store-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--surface);
-    border: 1px solid var(--border-md);
-    border-radius: var(--radius-sm);
-    padding: 8px 14px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    color: var(--text-primary);
-    font-family: 'Noto Sans KR', sans-serif;
-    transition: background 0.12s;
-    white-space: nowrap;
-  }
-  .add-store-btn:hover { background: var(--nav-active-bg); }
-
-  .stores-list { display: flex; flex-direction: column; gap: 1rem; }
-
-  /* ── STORE CARD ── */
-  .store-card {
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
-  .store-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.875rem 1.25rem;
-    border-bottom: 1px solid var(--border);
-    gap: 0.5rem;
-  }
-  .store-name-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-    min-width: 0;
-  }
-  .store-name-input {
-    font-size: 15px;
-    font-weight: 500;
-    border: none;
-    background: transparent;
-    color: var(--text-primary);
-    outline: none;
-    font-family: 'Noto Sans KR', sans-serif;
-    min-width: 0;
-    flex: 1;
-  }
-  .store-name-input::placeholder { color: var(--text-hint); }
-  .store-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-  .store-subtotal {
-    font-size: 13px;
-    color: var(--text-secondary);
-    font-weight: 500;
-  }
-  .store-subtotal em { font-style: normal; color: var(--text-primary); }
-
-  .icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text-hint);
-    padding: 4px 5px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    transition: color 0.12s, background 0.12s;
-    font-size: 15px;
-    line-height: 1;
-  }
-  .icon-btn:hover { color: var(--text-primary); background: var(--nav-active-bg); }
-  .icon-btn.danger:hover { color: #993C1D; background: var(--accent-want-bg); }
-
-  .items-table { width: 100%; border-collapse: collapse; }
-  .items-table th {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-hint);
-    text-align: left;
-    padding: 8px 1.25rem;
-    background: #FAFAF8;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .items-table th.right { text-align: right; }
-  .items-table td {
-    font-size: 14px;
-    color: var(--text-primary);
-    padding: 9px 1.25rem;
-    border-top: 1px solid var(--border);
-    vertical-align: middle;
-  }
-  .items-table td.right { text-align: right; }
-  .cell-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    font-family: 'Noto Sans KR', sans-serif;
-    color: var(--text-primary);
-    width: 100%;
-  }
-  .cell-input::placeholder { color: var(--text-hint); }
-  .price-input { text-align: right; width: 100px; }
-  .add-item-row td { padding: 7px 1.25rem; border-top: 1px solid var(--border); }
-  .add-item-btn {
-    display: flex; align-items: center; gap: 5px;
-    background: none; border: none;
-    font-size: 13px; color: var(--text-hint);
-    cursor: pointer; padding: 3px 0;
-    font-family: 'Noto Sans KR', sans-serif;
-    transition: color 0.12s;
-  }
-  .add-item-btn:hover { color: var(--text-primary); }
-
-  .empty-state {
-    text-align: center;
-    padding: 3rem 1rem;
-    color: var(--text-hint);
-    font-size: 14px;
-  }
-  .empty-state svg { margin-bottom: 10px; opacity: 0.35; }
-
-  /* ── MODAL ── */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.3);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    padding: 1.75rem;
-    width: 340px;
-    border: 1px solid var(--border-md);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  }
-  .modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 1.25rem; }
-  .modal label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 5px; font-weight: 500; }
-  .modal input[type=text] {
-    width: 100%;
-    padding: 9px 12px;
-    border: 1px solid var(--border-md);
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    font-family: 'Noto Sans KR', sans-serif;
-    color: var(--text-primary);
-    background: var(--bg);
-    outline: none;
-    margin-bottom: 1rem;
-    transition: border-color 0.12s;
-  }
-  .modal input[type=text]:focus { border-color: #888; }
-  .color-row { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .color-swatch {
-    width: 26px; height: 26px; border-radius: 50%;
-    cursor: pointer; border: 2px solid transparent;
-    transition: border-color 0.12s, transform 0.1s;
-  }
-  .color-swatch:hover { transform: scale(1.15); }
-  .color-swatch.selected { border-color: var(--text-primary); }
-  .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
-  .modal-actions button {
-    padding: 8px 18px; font-size: 13px;
-    border-radius: var(--radius-sm); cursor: pointer;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
-    border: 1px solid var(--border-md);
-    background: var(--surface); color: var(--text-secondary);
-    transition: background 0.12s;
-  }
-  .modal-actions button:hover { background: var(--bg); }
-  .modal-actions button.primary {
-    background: var(--text-primary); color: #fff; border-color: var(--text-primary);
-  }
-  .modal-actions button.primary:hover { background: #333; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 640px) {
-    :root { --sidebar-w: 0px; }
-    .sidebar { display: none; }
-    .main { margin-left: 0; padding: 1rem; max-width: 100vw; }
-    .home-cards { grid-template-columns: 1fr; }
-  }
-</style>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sidebar-brand">
     <div class="brand-icon">
@@ -567,26 +60,24 @@
   </div>
 </nav>
 
-<!-- MAIN -->
 <main class="main">
 
-  <!-- HOME PAGE -->
   <div class="page active" id="page-home">
     <div class="home-greeting">안녕하세요 👋</div>
     <div class="home-date" id="home-date-text"></div>
 
     <div class="home-cards">
-      <div class="home-card must" onclick="goTo('must')" style="cursor:pointer;">
+      <div class="home-card must" onclick="goTo('must')">
         <div class="home-card-tag must">
-          <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M9 2L10.8 6.6L16 7.2L12.2 10.8L13.4 16L9 13.4L4.6 16L5.8 10.8L2 7.2L7.2 6.6L9 2Z" stroke="#1D9E75" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M9 2L10.8 6.6L16 7.2L12.2 10.8L13.4 16L9 13.4L4.6 16L5.8 10.8L2 7.2L7.2 6.6L9 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
           사야하는 것
         </div>
         <div class="home-card-amount" id="home-must-amount">0원</div>
         <div class="home-card-meta" id="home-must-meta">상품 0개 · 쇼핑몰 0곳</div>
       </div>
-      <div class="home-card want" onclick="goTo('want')" style="cursor:pointer;">
+      <div class="home-card want" onclick="goTo('want')">
         <div class="home-card-tag want">
-          <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M9 15s-7-4.5-7-8.5C2 4 3.5 2 6 2c1.5 0 2.5.8 3 2 .5-1.2 1.5-2 3-2 2.5 0 4 2 4 4.5C16 10.5 9 15 9 15Z" stroke="#D85A30" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M9 15s-7-4.5-7-8.5C2 4 3.5 2 6 2c1.5 0 2.5.8 3 2 .5-1.2 1.5-2 3-2 2.5 0 4 2 4 4.5C16 10.5 9 15 9 15Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
           사고싶은 것
         </div>
         <div class="home-card-amount" id="home-want-amount">0원</div>
@@ -608,7 +99,6 @@
     </div>
   </div>
 
-  <!-- MUST PAGE -->
   <div class="page" id="page-must">
     <div class="page-header">
       <div class="page-title-area">
@@ -626,7 +116,6 @@
     <div class="stores-list" id="must-stores"></div>
   </div>
 
-  <!-- WANT PAGE -->
   <div class="page" id="page-want">
     <div class="page-header">
       <div class="page-title-area">
@@ -646,7 +135,6 @@
 
 </main>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <h3>쇼핑몰 추가</h3>
@@ -662,7 +150,8 @@
 </div>
 
 <script>
-const COLORS = ['#1D9E75','#378ADD','#D85A30','#D4537E','#7F77DD','#BA7517','#639922','#E24B4A','#5DCAA5','#85B7EB'];
+// 따뜻하고 빈티지한 감성의 팔레트로 변경
+const COLORS = ['#627C6A','#C26B56','#D49A89','#8F9AA5','#D1A960','#7F77DD','#A35E5A','#5DCAA5'];
 
 let data = {
   must: JSON.parse(localStorage.getItem('sl_must') || '[]'),
@@ -769,9 +258,9 @@ function renderPage(cat) {
   if (data[cat].length === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-          <rect x="6" y="4" width="28" height="34" rx="3" stroke="#888" stroke-width="1.5"/>
-          <path d="M14 14h12M14 20h12M14 26h8" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
+        <svg width="48" height="48" viewBox="0 0 40 40" fill="none">
+          <rect x="6" y="4" width="28" height="34" rx="6" stroke="#A6A39E" stroke-width="1.5"/>
+          <path d="M14 14h12M14 20h12M14 26h8" stroke="#A6A39E" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         <div>쇼핑몰을 추가하고 상품을 기록해보세요</div>
       </div>`;
@@ -782,14 +271,14 @@ function renderPage(cat) {
     <div class="store-card" id="sc-${store.id}">
       <div class="store-header">
         <div class="store-name-wrap">
-          <div class="dot" style="background:${store.color};width:10px;height:10px;flex-shrink:0;"></div>
+          <div class="dot" style="background:${store.color};width:12px;height:12px;flex-shrink:0;"></div>
           <input class="store-name-input" value="${escH(store.name)}" placeholder="쇼핑몰 이름"
             oninput="updateStoreName('${cat}', ${store.id}, this.value)" />
         </div>
         <div class="store-right">
           <span class="store-subtotal">소계 <em id="sub-${store.id}">${fmt(storeTotal(store))}</em></span>
           <button class="icon-btn danger" onclick="deleteStore('${cat}', ${store.id})" title="쇼핑몰 삭제">
-            <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><path d="M3 5h12M7 5V3h4v2M14 5l-.8 10H4.8L4 5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 5h12M7 5V3h4v2M14 5l-.8 10H4.8L4 5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
           </button>
         </div>
       </div>
@@ -807,7 +296,7 @@ function renderPage(cat) {
           <tr class="add-item-row">
             <td colspan="4">
               <button class="add-item-btn" onclick="addItem('${cat}', ${store.id})">
-                <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                 상품 추가
               </button>
             </td>
@@ -830,7 +319,7 @@ function itemRow(cat, storeId, item) {
         oninput="updateItem('${cat}',${storeId},${item.id},'price',this.value)" /></td>
       <td style="text-align:center;">
         <button class="icon-btn danger" onclick="deleteItem('${cat}',${storeId},${item.id})" title="삭제">
-          <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><path d="M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </button>
       </td>
     </tr>`;
