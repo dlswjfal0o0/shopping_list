@@ -28,7 +28,7 @@
 }
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Gowun Dodum', sans-serif;
   background: var(--bg);
   color: var(--text-primary);
   min-height: 100vh;
@@ -52,7 +52,7 @@ body {
   padding: 2rem 1.5rem 1.5rem;
 }
 .brand-icon {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Hahmlet', serif;
   font-size: 24px;
   color: var(--text-primary);
   letter-spacing: -0.5px;
@@ -148,7 +148,7 @@ body {
 
 /* ── HOME PAGE ── */
 .home-greeting {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Hahmlet', serif;
   font-size: 32px;
   font-weight: 400;
   color: var(--text-primary);
@@ -199,7 +199,7 @@ body {
 .home-card-tag.want { background: var(--accent-want-bg); color: var(--accent-want); }
 
 .home-card-amount {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Hahmlet', serif;
   font-size: 36px;
   color: var(--text-primary);
   letter-spacing: -1px;
@@ -226,7 +226,7 @@ body {
   margin-bottom: 6px;
 }
 .home-total-amount {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Hahmlet', serif;
   font-size: 42px;
   color: #fff;
   letter-spacing: -1px;
@@ -284,7 +284,7 @@ body {
   gap: 1rem;
 }
 .page-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Hahmlet', serif;
   font-size: 32px;
   font-weight: 400;
   letter-spacing: -0.5px;
